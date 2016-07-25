@@ -1,0 +1,38 @@
+@import "../vendor/bootstrap-3.3.6/stylesheets/bootstrap";
+
+div.container {
+  max-width: 800px;
+
+  input[type=number] {
+    width: 80px;
+  }
+
+  input, button {
+    margin-right: 0.3em;
+    margin-left: 0.3em;
+  }
+
+  span.margin-right {
+    display: inline-block;
+    margin-right: 50px;
+  }
+
+  .form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #fff;
+
+    h2 {
+      margin-bottom: 30px;
+    }
+
+    .form-control {
+      position: relative;
+      font-size: 16px;
+      height: auto;
+      padding: 6px;
+      @include box-sizing(border-box);
+    }
+  }
+}

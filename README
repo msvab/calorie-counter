@@ -1,0 +1,9 @@
+Deployed on https://calorie-counter-ms.herokuapp.com
+
+For running the app or tests locally you need to set environment variable DATABASE_URL
+For production DB use export DATABASE_URL=$(heroku config:get DATABASE_URL -a calorie-counter-ms)
+
+Build:               npm run build
+Run:                 npm run start
+Run API tests:       npm run test-server
+Run funcional tests: npm run test-func
