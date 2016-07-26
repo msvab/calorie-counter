@@ -2,7 +2,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {fetchMeals, deleteMeal, toggleCreateMeal, showEditMeal} from '../actions'
+import actions from '../actions'
 import MealFilter from '../components/MealFilter'
 import MealForm from '../components/MealForm'
 import Auth from '../auth'
@@ -10,19 +10,19 @@ import Auth from '../auth'
 class MealsPage extends React.Component {
 
   toggleForm() {
-    this.props.dispatch(toggleCreateMeal())
+    this.props.dispatch(actions.toggleCreateMeal())
   }
 
   editMeal(id) {
-    this.props.dispatch(showEditMeal(id))
+    this.props.dispatch(actions.showEditMeal(id))
   }
 
   deleteMeal(id) {
-    this.props.dispatch(deleteMeal(id));
+    this.props.dispatch(actions.deleteMeal(id));
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchMeals());
+    this.props.dispatch(actions.fetchMeals());
   }
 
   render() {

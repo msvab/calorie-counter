@@ -1,18 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {showEditDailyLimit, setDailyLimit} from '../actions'
+import actions from '../actions'
 
 class DailyCalorieCounter extends React.Component {
 
   showInput(event) {
     event.preventDefault()
-    this.props.dispatch(showEditDailyLimit())
+    this.props.dispatch(actions.showEditDailyLimit())
   }
 
   setLimit(event) {
     event.preventDefault()
     const newLimit = +event.target.querySelector('[name=limit]').value
-    this.props.dispatch(setDailyLimit(this.props.currentUser.login, newLimit))
+    this.props.dispatch(actions.setDailyLimit(this.props.currentUser.login, newLimit))
   }
 
   render() {

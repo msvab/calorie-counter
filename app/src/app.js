@@ -13,7 +13,7 @@ import UsersPage from './pages/UsersPage'
 import DailyCalorieCounter from './components/DailyCalorieCounter'
 import Auth from './auth'
 import rootReducer from './reducers'
-import {logout, setUser, fetchUserDetails} from './actions'
+import actions from './actions'
 
 const store = createStore(
     rootReducer,
@@ -25,7 +25,7 @@ class App extends React.Component {
 
   updateAuth(user) {
     if (user) {
-      store.dispatch(setUser(user))
+      store.dispatch(actions.setUser(user))
     }
   }
 
@@ -36,7 +36,7 @@ class App extends React.Component {
   logOut(event) {
     event.preventDefault()
     Auth.logout()
-    store.dispatch(logout())
+    store.dispatch(actions.logout())
     store.dispatch(push('/login'))
   }
 
@@ -102,6 +102,6 @@ render((
 
 // fetch user details if logged in
 if (Auth.loggedIn)
-  store.dispatch(fetchUserDetails())
+  store.dispatch(actions.fetchUserDetails())
 else
   store.dispatch(push('/login'))

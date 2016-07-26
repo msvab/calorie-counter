@@ -1,19 +1,18 @@
+'use strict'
+import {hasAuthToken, postJson, setAuthToken} from './actions/request-utils'
+
 export default class Auth {
   static async login() {
     try {
       const response = await doLogin()
       localStorage.role = response.user.role
-      localStorage.token = response.token
+      setAuthToken(response.token)
       this.onChange(response.user)
       return response.user
     } catch(err) {
       this.onChange(false)
       throw err
     }
-  }
-
-  static get token() {
-    return localStorage.token
   }
 
   static isAdmin() {
@@ -29,31 +28,23 @@ export default class Auth {
   }
 
   static logout() {
-    delete localStorage.token
+    setAuthToken(null)
     delete localStorage.role
     this.onChange(false)
   }
 
   static get loggedIn() {
-    return !!this.token
+    return hasAuthToken()
   }
 
   static onChange() {}
 }
 
-// const host = 'http://127.0.0.1:3000'
-const host = ''
-
 async function doLogin() {
   const login = document.getElementById('login-form').querySelector('[name=login]').value.trim()
   const password = document.getElementById('login-form').querySelector('[name=password]').value.trim()
 
-  const response = await fetch(`${host}/login`, {
-    method: 'POST',
-    credentials: 'include',
-    mode: 'cors',
-    body: {login: login, password: password}
-  });
+  const response = await postJson('/login', {login: login, password: password})
 
   if (response.ok) {
     return await response.json()

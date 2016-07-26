@@ -1093,6 +1093,11 @@
       "from": "cookies@>=0.6.1 <0.7.0",
       "resolved": "https://registry.npmjs.org/cookies/-/cookies-0.6.1.tgz"
     },
+    "copy-to": {
+      "version": "2.0.1",
+      "from": "copy-to@>=2.0.1 <2.1.0",
+      "resolved": "https://registry.npmjs.org/copy-to/-/copy-to-2.0.1.tgz"
+    },
     "copy-webpack-plugin": {
       "version": "3.0.1",
       "from": "copy-webpack-plugin@latest",
@@ -2470,6 +2475,11 @@
       "version": "0.5.0",
       "from": "jwt-simple@latest",
       "resolved": "https://registry.npmjs.org/jwt-simple/-/jwt-simple-0.5.0.tgz"
+    },
+    "kcors": {
+      "version": "1.2.1",
+      "from": "kcors@latest",
+      "resolved": "https://registry.npmjs.org/kcors/-/kcors-1.2.1.tgz"
     },
     "keygrip": {
       "version": "1.0.1",

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import {createMeal, updateMeal} from '../actions'
+import actions from '../actions'
 
 export default class MealForm extends React.Component {
   static propTypes = {
@@ -32,9 +32,9 @@ export default class MealForm extends React.Component {
     event.preventDefault()
 
     if (this.props.meal) {
-      this.props.dispatch(updateMeal(this.state, this.props.meal.id))
+      this.props.dispatch(actions.updateMeal(this.state, this.props.meal.id))
     } else {
-      this.props.dispatch(createMeal(this.state))
+      this.props.dispatch(actions.createMeal(this.state))
     }
   }
 

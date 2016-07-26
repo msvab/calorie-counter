@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {createUser} from '../actions'
+import actions from '../actions'
 
 class RegisterPage extends React.Component {
 
@@ -10,7 +10,7 @@ class RegisterPage extends React.Component {
     const login = document.getElementById('login').value
     const password = document.getElementById('password').value
     const role = 'USER'
-    this.props.dispatch(createUser({login, password, role}, '/login'))
+    this.props.dispatch(actions.createUser({login, password, role}, '/login'))
   }
 
   render() {

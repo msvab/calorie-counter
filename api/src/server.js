@@ -3,6 +3,7 @@ const koa         = require('koa')
 const serve       = require('koa-static')
 const logger      = require('koa-logger')
 const bodyParser  = require('koa-body')
+const cors        = require('kcors')
 
 const passport    = require('./auth/passport')
 const router      = require('./routes')
@@ -13,6 +14,7 @@ app.name = 'Calorie Counter'
 
 app
     .use(logger())
+    .use(cors({allowMethods: 'GET,HEAD,PATCH,PUT,POST,DELETE'}))
     .use(bodyParser())
     .use(passport.initialize())
     .use(router.routes())

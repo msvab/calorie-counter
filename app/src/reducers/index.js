@@ -8,7 +8,7 @@ import {RECEIVE_MEALS, MEAL_CREATED, MEAL_UPDATED, MEAL_DELETED,
     TOGGLE_CREATE_MEAL, SHOW_EDIT_MEAL, HIDE_EDIT_MEAL, SET_USER, LOGOUT,
     TOGGLE_CREATE_USER, SHOW_EDIT_USER, HIDE_EDIT_USER, RECEIVE_USERS,
     USER_CREATED, USER_DELETED, USER_UPDATED, MEALS_FILTERED, DAILY_LIMIT_CHANGED,
-    SHOW_EDIT_DAILY_LIMIT} from '../actions'
+    SHOW_EDIT_DAILY_LIMIT} from '../actions/types'
 
 const sortMeals = (a, b) => moment(`${a.date} ${a.time}`).isAfter(`${b.date} ${b.time}`)
 const sortUsers = (a, b) => a.login > b.login
