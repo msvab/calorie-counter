@@ -1,28 +1,25 @@
 'use strict';
-const passport      = require('koa-passport');
-const LocalStrategy = require('passport-local').Strategy;
-const Password      = require('./password')
-const Users         = require('../repo/users');
+const passport    = require('koa-passport')
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt  = require('passport-jwt').ExtractJwt
+const jwtConfig   = require('./jwt-config')
+const Users       = require('../repo/users')
 
-function serializeUser(user, done) {
-  done(null, user.login)
-}
+const jwtOptions = {secretOrKey: jwtConfig.jwtSecret, jwtFromRequest: ExtractJwt.fromAuthHeader()}
 
-function deserializeUser(login, done) {
-  Users.findByLogin(login).then(user => done(null, user))
-}
-
-function authorizeUserInDatabase(login, password, done) {
-  return Users.findByLogin(login)
-      .then(user =>
-          Password.verifyPassword(password, user.password).then(() => user)
-      )
+function onAuthenticated(payload, done) {
+  return Users.findByLogin(payload.login)
       .then(user => done(null, user))
       .catch(() => done(null, false))
 }
 
-passport.serializeUser(serializeUser)
-passport.deserializeUser(deserializeUser)
-passport.use(new LocalStrategy({usernameField: 'fields[login]', passwordField: 'fields[password]'}, authorizeUserInDatabase))
+passport.use(new JwtStrategy(jwtOptions, onAuthenticated))
 
-module.exports = passport
+module.exports = {
+  initialize: function() {
+    return passport.initialize()
+  },
+  authenticate: function() {
+    return passport.authenticate('jwt', jwtConfig.jwtSession)
+  }
+}

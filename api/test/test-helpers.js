@@ -2,32 +2,29 @@
 const mocha = require('mocha')
 const coMocha = require('co-mocha')
 const Promise = require('bluebird')
-const request = require("request")
+const request = Promise.promisify(require('request'))
 
 const Users = require('../src/repo/users')
 const Password = require('../src/auth/password')
 
 coMocha(mocha)
 
-let cookies = request.jar()
-let promiseRequest = Promise.promisify(request.defaults({jar: cookies}))
-
 const login = Promise.coroutine(function* (user) {
-  const response = yield promiseRequest('http://127.0.0.1:3001/login',
-      {method: 'POST', form: {fields: {login: user.login, password: user.password}}})
+  const response = yield request('http://127.0.0.1:3001/login',
+      {method: 'POST', json: {login: user.login, password: user.password}})
 
   if (response.statusCode !== 200)
     throw new Error('Could not login')
-  return response
+  return response.body.token
 })
 
-const getMeals = Promise.coroutine(function* () {
-  const response = yield promiseRequest('http://127.0.0.1:3001/api/meals')
+const getMeals = Promise.coroutine(function* (authToken) {
+  const response = yield request('http://127.0.0.1:3001/api/meals', {headers: {'Authorization': `JWT ${authToken}`}})
   return JSON.parse(response.body)
 })
 
-const getUsers = Promise.coroutine(function* () {
-  const response = yield promiseRequest('http://127.0.0.1:3001/api/users')
+const getUsers = Promise.coroutine(function* (authToken) {
+  const response = yield request('http://127.0.0.1:3001/api/users', {headers: {'Authorization': `JWT ${authToken}`}})
   return JSON.parse(response.body)
 })
 
@@ -36,15 +33,10 @@ const createUser = Promise.coroutine(function* (user) {
   return yield Users.save(user)
 })
 
-function clearCookies() {
-  cookies = request.jar()
-}
-
 module.exports = {
   login: login,
   getMeals: getMeals,
   getUsers: getUsers,
   createUser: createUser,
-  request: promiseRequest,
-  clearCookies: clearCookies
+  request: request
 }

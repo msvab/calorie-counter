@@ -19,9 +19,10 @@ describe('/api/users', () => {
       const user = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER', maxDailyCalories: 2100})
       const admin = yield helper.createUser({login: 'test-admin', password: 'pwd', role: 'ADMIN', maxDailyCalories: null})
 
-      yield helper.login({login: admin.login, password: 'pwd'})
+      const token = yield helper.login({login: admin.login, password: 'pwd'})
 
-      const response = yield helper.request('http://127.0.0.1:3001/api/users', {method: 'GET'})
+      const response = yield helper.request('http://127.0.0.1:3001/api/users',
+          {method: 'GET', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
       const users = JSON.parse(response.body)
@@ -31,16 +32,15 @@ describe('/api/users', () => {
     it('should return 403 when user is not ADMIN nor USER_MANAGER', function* () {
       const user = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER', maxDailyCalories: 2100})
 
-      yield helper.login({login: user.login, password: 'pwd'})
+      const token = yield helper.login({login: user.login, password: 'pwd'})
 
-      const response = yield helper.request('http://127.0.0.1:3001/api/users', {method: 'GET'})
+      const response = yield helper.request('http://127.0.0.1:3001/api/users',
+          {method: 'GET', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(403)
     })
 
     it('shouldnt be possible to get users, when not logged in', function* () {
-      helper.clearCookies()
-
       const response = yield helper.request('http://127.0.0.1:3001/api/users', {method: 'GET'})
 
       expect(response.statusCode).to.equal(401)
@@ -51,39 +51,14 @@ describe('/api/users', () => {
     it('should return user details of a user that is currently logged in', function* () {
       const user = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER', maxDailyCalories: 2100})
 
-      yield helper.login({login: user.login, password: 'pwd'})
+      const token = yield helper.login({login: user.login, password: 'pwd'})
 
-      const response = yield helper.request('http://127.0.0.1:3001/api/users/current_user', {method: 'GET'})
+      const response = yield helper.request('http://127.0.0.1:3001/api/users/current_user',
+          {method: 'GET', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
       const users = JSON.parse(response.body)
       expect(users).to.deep.equal(_.omit(user, 'password'))
-    })
-  })
-
-  describe('POST /', () => {
-    it('should create a user', function* () {
-      const userManager = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER_MANAGER', maxDailyCalories: 2100})
-      const newUser = {login: 'test-user-2', password: 'pwd', role: 'USER', maxDailyCalories: null}
-
-      yield helper.login({login: userManager.login, password: 'pwd'})
-
-      let response = yield helper.request('http://127.0.0.1:3001/api/users', {method: 'POST', json: newUser})
-
-      expect(response.statusCode).to.equal(200)
-
-      const users = yield helper.getUsers()
-      expect(users).to.deep.include.members([_.omit(newUser, 'password')])
-    })
-
-    it('should not be possible to create admin user unless logged in', function* () {
-      const newUser = {login: 'test-user-2', password: 'pwd', role: 'ADMIN', maxDailyCalories: null}
-
-      helper.clearCookies()
-
-      let response = yield helper.request('http://127.0.0.1:3001/api/users', {method: 'POST', json: newUser})
-
-      expect(response.statusCode).to.equal(422)
     })
   })
 
@@ -92,13 +67,14 @@ describe('/api/users', () => {
       const userManager = yield helper.createUser({login: 'test-user-mgr', password: 'pwd', role: 'USER_MANAGER'})
       const user = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER'})
 
-      yield helper.login({login: userManager.login, password: 'pwd'})
+      const token = yield helper.login({login: userManager.login, password: 'pwd'})
 
-      let response = yield helper.request(`http://127.0.0.1:3001/api/users/${user.login}`, {method: 'DELETE'})
+      let response = yield helper.request(`http://127.0.0.1:3001/api/users/${user.login}`,
+          {method: 'DELETE', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
 
-      const users = yield helper.getMeals()
+      const users = yield helper.getMeals(token)
       expect(users).to.not.deep.include.members([_.omit(user, 'password')])
     })
   })
@@ -109,13 +85,14 @@ describe('/api/users', () => {
       const update = {login: user.login, maxDailyCalories: 2100}
       const updatedUser = Object.assign({}, user, update)
 
-      yield helper.login({login: user.login, password: 'pwd'})
+      const token = yield helper.login({login: user.login, password: 'pwd'})
 
-      let response = yield helper.request(`http://127.0.0.1:3001/api/users/${user.login}`, {method: 'PATCH', json: update})
+      let response = yield helper.request(`http://127.0.0.1:3001/api/users/${user.login}`,
+          {method: 'PATCH', json: update, headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
 
-      const users = yield helper.getUsers()
+      const users = yield helper.getUsers(token)
       expect(users).to.deep.include.members([_.omit(updatedUser, 'password')])
     })
   })

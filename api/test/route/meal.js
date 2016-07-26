@@ -4,7 +4,6 @@ const expect = require('chai').expect
 const TestApp = require('../test-app')
 const helper = require('../test-helpers')
 const knex = require('../../src/repo/db-model').knex
-const Users = require('../../src/repo/users')
 const Meals = require('../../src/repo/meals')
 
 TestApp.start()
@@ -22,9 +21,10 @@ describe('/api/meals', () => {
       const userMeal2 = yield Meals.save({login: 'test-user', date: '2011-12-04', time: '12:00', name: 'lunch', calories: 600})
       const adminMeal = yield Meals.save({login: 'test-admin', date: '2011-12-04', time: '09:30', name: 'brekkie', calories: 100})
 
-      yield helper.login({login: user.login, password: 'pwd'})
+      const token = yield helper.login({login: user.login, password: 'pwd'})
 
-      const response = yield helper.request('http://127.0.0.1:3001/api/meals', {method: 'GET'})
+      const response = yield helper.request('http://127.0.0.1:3001/api/meals',
+          {method: 'GET', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
       const meals = JSON.parse(response.body)
@@ -38,9 +38,10 @@ describe('/api/meals', () => {
       const userMeal2 = yield Meals.save({login: 'test-user', date: '2011-12-04', time: '12:00', name: 'lunch', calories: 600})
       const adminMeal = yield Meals.save({login: 'test-admin', date: '2011-12-04', time: '09:30', name: 'brekkie', calories: 100})
 
-      yield helper.login({login: admin.login, password: 'pwd'})
+      const token = yield helper.login({login: admin.login, password: 'pwd'})
 
-      const response = yield helper.request('http://127.0.0.1:3001/api/meals', {method: 'GET'})
+      const response = yield helper.request('http://127.0.0.1:3001/api/meals',
+          {method: 'GET', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
       const meals = JSON.parse(response.body)
@@ -48,8 +49,6 @@ describe('/api/meals', () => {
     })
 
     it('shouldnt be possible to get meals, when not logged in', function* () {
-      helper.clearCookies()
-
       const response = yield helper.request('http://127.0.0.1:3001/api/meals', {method: 'GET'})
 
       expect(response.statusCode).to.equal(401)
@@ -61,13 +60,14 @@ describe('/api/meals', () => {
       const user = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER'})
       const newMeal = {date: '2012-12-22', time: '08:00', name: 'brekkie', calories: 500}
 
-      yield helper.login({login: 'test-user', password: 'pwd'})
+      const token = yield helper.login({login: 'test-user', password: 'pwd'})
 
-      let response = yield helper.request('http://127.0.0.1:3001/api/meals', {method: 'POST', json: newMeal})
+      let response = yield helper.request('http://127.0.0.1:3001/api/meals',
+          {method: 'POST', json: newMeal, headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
 
-      const meals = yield helper.getMeals()
+      const meals = yield helper.getMeals(token)
       expect(meals).to.have.length(1)
     })
   })
@@ -77,13 +77,14 @@ describe('/api/meals', () => {
       const user = yield helper.createUser({login: 'test-user', password: 'pwd', role: 'USER'})
       const meal = yield Meals.save({login: user.login, date: '2011-12-04', time: '09:00', name: 'brekkie', calories: 100})
 
-      yield helper.login({login: 'test-user', password: 'pwd'})
+      const token = yield helper.login({login: 'test-user', password: 'pwd'})
 
-      let response = yield helper.request(`http://127.0.0.1:3001/api/meals/${meal.id}`, {method: 'DELETE'})
+      let response = yield helper.request(`http://127.0.0.1:3001/api/meals/${meal.id}`,
+          {method: 'DELETE', headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
 
-      const meals = yield helper.getMeals()
+      const meals = yield helper.getMeals(token)
       expect(meals).to.have.length(0)
     })
   })
@@ -94,13 +95,14 @@ describe('/api/meals', () => {
       const meal = yield Meals.save({login: user.login, date: '2011-12-04', time: '09:00', name: 'brekkie', calories: 100})
       const updatedMeal = Object.assign({}, meal, {time: '10:00', calories: 200})
 
-      yield helper.login({login: 'test-user', password: 'pwd'})
+      const token = yield helper.login({login: 'test-user', password: 'pwd'})
 
-      let response = yield helper.request(`http://127.0.0.1:3001/api/meals/${meal.id}`, {method: 'PUT', json: updatedMeal})
+      let response = yield helper.request(`http://127.0.0.1:3001/api/meals/${meal.id}`,
+          {method: 'PUT', json: updatedMeal, headers: {'Authorization': `JWT ${token}`}})
 
       expect(response.statusCode).to.equal(200)
 
-      const meals = yield helper.getMeals()
+      const meals = yield helper.getMeals(token)
       expect(meals).to.deep.equal([updatedMeal])
     })
   })

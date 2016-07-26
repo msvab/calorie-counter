@@ -3,25 +3,6 @@ const router = require('koa-router')();
 const Users = require('../repo/users');
 const password = require('../auth/password')
 
-function* createUser() {
-  const user = this.request.body
-
-  if (!user.password || !user.login) {
-    this.status = 422
-    return
-  }
-
-  if (user.role !== 'USER' && (this.passport.user == null || this.passport.user.role === 'USER')) {
-    this.status = 422
-    return
-  }
-
-  user.password = yield password.encryptPassword(user.password)
-
-  yield Users.save(user)
-  this.status = 200
-}
-
 function* updateUser() {
   const user = this.request.body
   if (user.password)
@@ -55,7 +36,6 @@ function* getCurrentUserDetails() {
 
 router.get('/', listUsers)
 router.get('/current_user', getCurrentUserDetails)
-router.post('/', createUser)
 router.patch('/:login', updateUser)
 router.delete('/:login', deleteUser)
 

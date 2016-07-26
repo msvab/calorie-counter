@@ -1,14 +1,9 @@
 'use strict'
-const koa = require('koa')
-const router = require('koa-router')
-const bodyParser  = require('koa-body')
-const session     = require('koa-session')
+const koa        = require('koa')
+const bodyParser = require('koa-body')
 
-const passport    = require('../src/auth/passport')
-const authenticationCheck = require('../src/auth/authentication-check')
-const mealRoutes = require('../src/route/meal')
-const userRoutes = require('../src/route/user')
-const loginRoutes = require('../src/route/login')
+const passport   = require('../src/auth/passport')
+const router     = require('../src/routes')
 
 class TestApp {
   static start() {
@@ -16,18 +11,11 @@ class TestApp {
 
     TestApp.started = true
     const app = koa()
-    app.keys = ['i am secret']
     app
         .use(bodyParser())
-        .use(session(app))
         .use(passport.initialize())
-        .use(passport.session())
-        .use(authenticationCheck)
-        .use(router()
-            .use('/api/meals', mealRoutes.routes())
-            .use('/api/users', userRoutes.routes())
-            .use('/login', loginRoutes.routes())
-            .routes())
+        .use(router.routes())
+        .use(router.allowedMethods())
         .listen(3001)
   }
 }
