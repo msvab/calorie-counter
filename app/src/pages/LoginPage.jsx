@@ -30,9 +30,9 @@ class Login extends React.Component {
           <form id="login-form" onSubmit={::this.handleSubmit} className="form-signin">
             <h2>Please Login</h2>
             <label htmlFor="login">Login</label>
-            <input name="login" className="form-control"/>
+            <input name="login" type="text" className="form-control"/>
             <label>Password</label>
-            <input name="password" className="form-control"/>
+            <input name="password" type="password" className="form-control"/>
             <br />
             <button type="submit" className="btn btn-default">Login</button>
           </form>

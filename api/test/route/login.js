@@ -20,6 +20,7 @@ describe('/login', () => {
           {method: 'POST', json: {login: user.login, password: 'pwd'}})
 
       expect(response.statusCode).to.equal(200)
+      expect(response.body.user).to.deep.equal({login: user.login, role: user.role, maxDailyCalories: null})
       expect(response.body.token).to.exist
     })
 

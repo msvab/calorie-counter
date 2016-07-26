@@ -1,11 +1,11 @@
 export default class Auth {
   static async login() {
     try {
-      const user = await doLogin()
-      localStorage.role = user.role
-      localStorage.token = Math.random().toString(36).substring(7)
-      this.onChange(user)
-      return user
+      const response = await doLogin()
+      localStorage.role = response.user.role
+      localStorage.token = response.token
+      this.onChange(response.user)
+      return response.user
     } catch(err) {
       this.onChange(false)
       throw err
@@ -45,11 +45,14 @@ export default class Auth {
 const host = ''
 
 async function doLogin() {
-  let response = await fetch(`${host}/login`, {
+  const login = document.getElementById('login-form').querySelector('[name=login]').value.trim()
+  const password = document.getElementById('login-form').querySelector('[name=password]').value.trim()
+
+  const response = await fetch(`${host}/login`, {
     method: 'POST',
     credentials: 'include',
     mode: 'cors',
-    body: new FormData(document.getElementById('login-form'))
+    body: {login: login, password: password}
   });
 
   if (response.ok) {
