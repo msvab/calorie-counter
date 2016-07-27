@@ -1,5 +1,5 @@
 'use strict'
-import {hasAuthToken, postJson, setAuthToken} from './actions/request-utils'
+import {hasAuthToken, postJson, setAuthToken} from './utils/request'
 
 export default class Auth {
   static async login() {

@@ -1,9 +1,9 @@
 'use strict'
 import {push} from 'react-router-redux'
 import Auth from '../auth'
-import {del, get, patchJson, postJson} from './request-utils'
+import {del, get, patchJson, postJson} from '../utils/request'
 import {RECEIVE_USERS, USER_CREATED, USER_UPDATED, USER_DELETED, TOGGLE_CREATE_USER, SHOW_EDIT_USER,
-    HIDE_EDIT_USER, SET_USER, LOGOUT} from './types'
+    HIDE_EDIT_USER, SET_USER, LOGOUT} from '../constants/action-types'
 
 export const receiveUsers = users => ({ type: RECEIVE_USERS, users })
 export const userCreated = user => ({ type: USER_CREATED, user })

@@ -1,6 +1,6 @@
 'use strict'
-import {patchJson} from './request-utils'
-import {SHOW_EDIT_DAILY_LIMIT, DAILY_LIMIT_CHANGED} from './types'
+import {patchJson} from '../utils/request'
+import {SHOW_EDIT_DAILY_LIMIT, DAILY_LIMIT_CHANGED} from '../constants/action-types'
 
 export const showEditDailyLimit = () => ({type: SHOW_EDIT_DAILY_LIMIT})
 export const dailyLimitChanged = limit => ({type: DAILY_LIMIT_CHANGED, limit})

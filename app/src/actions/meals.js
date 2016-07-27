@@ -1,8 +1,8 @@
 'use strict'
 import moment from 'moment'
-import {del, get, postJson, putJson} from './request-utils'
+import {del, get, postJson, putJson} from '../utils/request'
 import {RECEIVE_MEALS, MEALS_FILTERED, MEAL_CREATED, MEAL_UPDATED, MEAL_DELETED,
-    TOGGLE_CREATE_MEAL, SHOW_EDIT_MEAL, HIDE_EDIT_MEAL} from './types'
+    TOGGLE_CREATE_MEAL, SHOW_EDIT_MEAL, HIDE_EDIT_MEAL} from '../constants/action-types'
 
 export const receiveMeals = meals => ({ type: RECEIVE_MEALS, meals })
 export const mealsFiltered = filteredMeals => ({ type: MEALS_FILTERED, filteredMeals })
