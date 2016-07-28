@@ -579,9 +579,9 @@
       "resolved": "https://registry.npmjs.org/babel-plugin-transform-regenerator/-/babel-plugin-transform-regenerator-6.9.0.tgz"
     },
     "babel-plugin-transform-runtime": {
-      "version": "6.9.0",
-      "from": "babel-plugin-transform-runtime@latest",
-      "resolved": "https://registry.npmjs.org/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.9.0.tgz"
+      "version": "6.12.0",
+      "from": "babel-plugin-transform-runtime@6.12.0",
+      "resolved": "https://registry.npmjs.org/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.12.0.tgz"
     },
     "babel-plugin-transform-strict-mode": {
       "version": "6.11.3",
@@ -1000,6 +1000,11 @@
       "version": "2.9.0",
       "from": "commander@>=2.2.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/commander/-/commander-2.9.0.tgz"
+    },
+    "commondir": {
+      "version": "1.0.1",
+      "from": "commondir@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/commondir/-/commondir-1.0.1.tgz"
     },
     "commoner": {
       "version": "0.10.4",
@@ -1524,9 +1529,9 @@
       }
     },
     "eslint-loader": {
-      "version": "1.4.1",
-      "from": "eslint-loader@latest",
-      "resolved": "https://registry.npmjs.org/eslint-loader/-/eslint-loader-1.4.1.tgz"
+      "version": "1.5.0",
+      "from": "eslint-loader@1.5.0",
+      "resolved": "https://registry.npmjs.org/eslint-loader/-/eslint-loader-1.5.0.tgz"
     },
     "eslint-plugin-react": {
       "version": "5.2.2",
@@ -1703,6 +1708,11 @@
       "version": "0.5.0",
       "from": "finalhandler@0.5.0",
       "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-0.5.0.tgz"
+    },
+    "find-cache-dir": {
+      "version": "0.1.1",
+      "from": "find-cache-dir@>=0.1.1 <0.2.0",
+      "resolved": "https://registry.npmjs.org/find-cache-dir/-/find-cache-dir-0.1.1.tgz"
     },
     "find-up": {
       "version": "1.1.2",
@@ -3356,6 +3366,11 @@
       "version": "2.0.1",
       "from": "pinkie-promise@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/pinkie-promise/-/pinkie-promise-2.0.1.tgz"
+    },
+    "pkg-dir": {
+      "version": "1.0.0",
+      "from": "pkg-dir@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/pkg-dir/-/pkg-dir-1.0.0.tgz"
     },
     "pluralize": {
       "version": "1.2.1",
