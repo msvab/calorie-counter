@@ -1,4 +1,5 @@
 'use strict';
+import _ from 'lodash/array'
 import {Map, List, fromJS} from 'immutable'
 
 import {LOGOUT, TOGGLE_CREATE_USER, SHOW_EDIT_USER, HIDE_EDIT_USER, RECEIVE_USERS,
