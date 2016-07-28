@@ -1,6 +1,10 @@
 'use strict'
 const mocha = require('mocha')
 const coMocha = require('co-mocha')
+
+import chai from 'chai'
+import dirtyChai from 'dirty-chai'
+
 const Promise = require('bluebird')
 const request = Promise.promisify(require('request'))
 
@@ -8,6 +12,7 @@ const Users = require('../src/repo/users')
 const Password = require('../src/auth/password')
 
 coMocha(mocha)
+chai.use(dirtyChai)
 
 const login = Promise.coroutine(function* (user) {
   const response = yield request('http://127.0.0.1:3001/login',
