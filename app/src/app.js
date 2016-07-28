@@ -12,7 +12,7 @@ import RegisterPage from './pages/RegisterPage'
 import UsersPage from './pages/UsersPage'
 import DailyCalorieCounter from './components/DailyCalorieCounter'
 import Auth from './auth'
-import rootReducer from './reducers'
+import rootReducer from './reducers/root'
 import actions from './actions'
 
 const store = createStore(
