@@ -1,4 +1,5 @@
 'use strict'
+import deepAssign from 'deep-assign'
 
 const host = 'http://127.0.0.1:3000'
 // const host = ''
@@ -14,11 +15,11 @@ export function setAuthToken(token) {
 const authOptions = () => hasAuthToken() ? {headers: {Authorization: `JWT ${localStorage.token}`}} : {}
 
 export function get(url, options = {}) {
-  return fetch(`${host}${url}`, Object.assign({method: 'GET', mode: 'cors'}, authOptions(), options))
+  return fetch(`${host}${url}`, deepAssign({method: 'GET', mode: 'cors'}, authOptions(), options))
 }
 
 export function del(url, options = {}) {
-  return fetch(`${host}${url}`, Object.assign({method: 'DELETE', mode: 'cors'}, authOptions(), options))
+  return fetch(`${host}${url}`, deepAssign({method: 'DELETE', mode: 'cors'}, authOptions(), options))
 }
 
 export function postJson(url, data, options = {}) {
@@ -30,7 +31,7 @@ export function postJson(url, data, options = {}) {
     },
     body: JSON.stringify(data)
   }
-  return fetch(`${host}${url}`, Object.assign(defaultOpts, authOptions(), options))
+  return fetch(`${host}${url}`, deepAssign(defaultOpts, authOptions(), options))
 }
 
 export function patchJson(url, data, options = {}) {
@@ -42,7 +43,7 @@ export function patchJson(url, data, options = {}) {
     },
     body: JSON.stringify(data)
   }
-  return fetch(`${host}${url}`, Object.assign(defaultOpts, authOptions(), options))
+  return fetch(`${host}${url}`, deepAssign(defaultOpts, authOptions(), options))
 }
 
 export function putJson(url, data, options = {}) {
@@ -54,5 +55,5 @@ export function putJson(url, data, options = {}) {
     },
     body: JSON.stringify(data)
   }
-  return fetch(`${host}${url}`, Object.assign(defaultOpts, authOptions(), options))
+  return fetch(`${host}${url}`, deepAssign(defaultOpts, authOptions(), options))
 }

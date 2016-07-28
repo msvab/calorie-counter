@@ -1,5 +1,4 @@
 'use strict'
-import _ from 'lodash/array'
 import moment from 'moment'
 import {List, Map} from 'immutable'
 
