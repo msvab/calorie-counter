@@ -1,12 +1,17 @@
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const path = require('path');
+'use strict'
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path')
+const merge = require('webpack-merge')
+const validate = require('webpack-validator')
 
-const ROOT_PATH = path.resolve(__dirname);
+const devConfig = require('./webpack.dev')
+const productionConfig = require('./webpack.production')
 
-module.exports = {
-  devtool: 'source-map',
+const ROOT_PATH = path.resolve(__dirname)
+const env = process.env.NODE_ENV || 'dev'
+
+const commonConfig = {
   entry: {
     js: ['babel-polyfill', 'isomorphic-fetch', path.resolve(ROOT_PATH, 'app/src/app.js')],
     css: path.resolve(ROOT_PATH, 'app/styles/site.scss')
@@ -16,30 +21,13 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: {
-    contentBase: path.resolve(ROOT_PATH, 'app/build'),
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true
-  },
+
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['eslint'],
-        include: path.resolve(ROOT_PATH, 'app/src')
-      }
-    ],
     loaders: [
       {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loaders: ['react-hot', 'babel']
-      }, {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap')
       },
@@ -52,9 +40,11 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('site.css'),
-    new webpack.HotModuleReplacementPlugin(),
     new CopyWebpackPlugin([
       { from: 'app/resources', to: '.' }
     ])
   ]
-};
+}
+
+const config = env === 'production' ? merge(commonConfig, productionConfig) : merge(commonConfig, devConfig)
+module.exports = validate(config)
