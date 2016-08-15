@@ -1,5 +1,5 @@
 import React from 'react'
-import actions from '../actions'
+import {createUser, updateUser} from '../actions/users'
 
 export default class UserForm extends React.Component {
   static propTypes = {
@@ -31,9 +31,9 @@ export default class UserForm extends React.Component {
     if (password) user.password = password
 
     if (this.props.user.login)
-      this.props.dispatch(actions.updateUser(user))
+      this.props.dispatch(updateUser(user))
     else if (user.password)
-      this.props.dispatch(actions.createUser(user))
+      this.props.dispatch(createUser(user))
     else
       this.setState({error: 'Password is required!'})
   }

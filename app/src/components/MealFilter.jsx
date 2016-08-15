@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import actions from '../actions'
+import {filterMeals} from '../actions/meals'
 
 const toDate = str => str ? moment(str, 'YYYY-MM-DD') : null
 const toTime = str => str ? moment(str, 'HH:mm') : null
@@ -22,13 +22,13 @@ export default class MealFilter extends React.Component {
       fromTime: toTime(event.target.querySelector('[name=fromTime]').value),
       toTime: toTime(event.target.querySelector('[name=toTime]').value)
     }
-    this.props.dispatch(actions.filterMeals(this.props.meals, filter))
+    this.props.dispatch(filterMeals(this.props.meals, filter))
   }
 
   clearFilter(event) {
     event.preventDefault()
 
-    this.props.dispatch(actions.filterMeals(this.props.meals, MealFilter.defaultProps))
+    this.props.dispatch(filterMeals(this.props.meals, MealFilter.defaultProps))
   }
 
   render() {

@@ -2,8 +2,18 @@
 import {push} from 'react-router-redux'
 import Auth from '../auth'
 import {del, get, patchJson, postJson} from '../utils/request'
-import {RECEIVE_USERS, USER_CREATED, USER_UPDATED, USER_DELETED, TOGGLE_CREATE_USER, SHOW_EDIT_USER,
-    HIDE_EDIT_USER, SET_USER, LOGOUT} from '../constants/action-types'
+
+export const RECEIVE_USERS = 'users/RECEIVE'
+export const USER_CREATED = 'users/CREATED'
+export const USER_UPDATED = 'users/UPDATED'
+export const USER_DELETED = 'users/DELETED'
+
+export const TOGGLE_CREATE_USER = 'users/TOGGLE_CREATE'
+export const SHOW_EDIT_USER = 'users/SHOW_EDIT'
+export const HIDE_EDIT_USER = 'users/HIDE_EDIT'
+
+export const SET_USER = 'users/SET'
+export const LOGOUT = 'users/LOGOUT'
 
 export const receiveUsers = users => ({ type: RECEIVE_USERS, users })
 export const userCreated = user => ({ type: USER_CREATED, user })

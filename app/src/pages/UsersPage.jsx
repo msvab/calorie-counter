@@ -2,25 +2,25 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import actions from '../actions'
+import {toggleCreateUser, showEditUser, deleteUser, fetchUsers} from '../actions/users'
 import UserForm from '../components/UserForm'
 
 class UsersPage extends React.Component {
 
   toggleForm() {
-    this.props.dispatch(actions.toggleCreateUser())
+    this.props.dispatch(toggleCreateUser())
   }
 
   editUser(id) {
-    this.props.dispatch(actions.showEditUser(id))
+    this.props.dispatch(showEditUser(id))
   }
 
   deleteUser(id) {
-    this.props.dispatch(actions.deleteUser(id));
+    this.props.dispatch(deleteUser(id));
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.fetchUsers());
+    this.props.dispatch(fetchUsers());
   }
 
   render() {

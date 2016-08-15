@@ -2,7 +2,7 @@
 import _ from 'lodash/array'
 
 import {LOGOUT, TOGGLE_CREATE_USER, SHOW_EDIT_USER, HIDE_EDIT_USER, RECEIVE_USERS,
-    USER_CREATED, USER_DELETED, USER_UPDATED} from '../constants/action-types'
+    USER_CREATED, USER_DELETED, USER_UPDATED} from '../actions/users'
 
 const sortUsers = (a, b) => a.login > b.login
 

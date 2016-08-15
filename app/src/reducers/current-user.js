@@ -1,6 +1,7 @@
 'use strict'
 
-import {SET_USER, LOGOUT, DAILY_LIMIT_CHANGED, SHOW_EDIT_DAILY_LIMIT} from '../constants/action-types'
+import {SET_USER, LOGOUT} from '../actions/users'
+import {DAILY_LIMIT_CHANGED, SHOW_EDIT_DAILY_LIMIT} from '../actions/daily-limit'
 
 const INITIAL_STATE = {login: null, role: null, maxDailyCalories: null, editLimit: false}
 

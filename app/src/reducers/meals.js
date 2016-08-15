@@ -3,7 +3,7 @@ import _ from 'lodash/array'
 import moment from 'moment'
 
 import {RECEIVE_MEALS, MEAL_CREATED, MEAL_UPDATED, MEAL_DELETED, LOGOUT,
-    TOGGLE_CREATE_MEAL, SHOW_EDIT_MEAL, HIDE_EDIT_MEAL, MEALS_FILTERED} from '../constants/action-types'
+    TOGGLE_CREATE_MEAL, SHOW_EDIT_MEAL, HIDE_EDIT_MEAL, MEALS_FILTERED} from '../actions/meals'
 
 const sortMeals = (a, b) => moment(`${a.date} ${a.time}`).isAfter(`${b.date} ${b.time}`)
 
